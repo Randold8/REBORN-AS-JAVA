@@ -9,7 +9,14 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Reborn as JAVA");
 
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
+
+        window.pack();
+
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gamePanel.startGameThread();
     }
 }
