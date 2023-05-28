@@ -2,10 +2,11 @@ package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed, downPressed, rightPressed, leftPressed;
+    public int upPressed, downPressed, rightPressed, leftPressed = 0;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -17,16 +18,16 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         if(code == KeyEvent.VK_W) {
-            upPressed = true;
+            upPressed = 1;
         }
         if(code == KeyEvent.VK_A) {
-            leftPressed = true;
+            leftPressed = 1;
         }
         if(code == KeyEvent.VK_S) {
-            downPressed = true;
+            downPressed = 1;
         }
         if(code == KeyEvent.VK_D) {
-            rightPressed = true;
+            rightPressed = 1;
         }
     }
 
@@ -35,17 +36,18 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         if(code == KeyEvent.VK_W) {
-            upPressed = false;
+            upPressed = 0;
         }
         if(code == KeyEvent.VK_A) {
-            leftPressed = false;
+            leftPressed = 0;
         }
         if(code == KeyEvent.VK_S) {
-            downPressed = false;
+            downPressed = 0;
         }
         if(code == KeyEvent.VK_D) {
-            rightPressed = false;
+            rightPressed = 0;
         }
 
     }
 }
+
