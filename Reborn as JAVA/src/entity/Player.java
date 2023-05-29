@@ -41,32 +41,29 @@ public class Player extends Entity {
 
     }
     public void update() {
-        if(keyH.upPressed == 1) {
-            direction = "up";
-        }
-        else if (keyH.downPressed == 1) {
-            direction = "down";
-        }
-        else if(keyH.leftPressed == 1) {
-            direction = "left";
-        }
-        else if(keyH.rightPressed == 1) {
-            direction = "right";
-        }
+        if(keyH.upPressed == 1||keyH.downPressed == 1||keyH.rightPressed == 1||keyH.leftPressed == 1) {
+            if (keyH.upPressed == 1) {
+                direction = "up";
+            } else if (keyH.downPressed == 1) {
+                direction = "down";
+            } else if (keyH.leftPressed == 1) {
+                direction = "left";
+            } else if (keyH.rightPressed == 1) {
+                direction = "right";
+            }
 
+            spriteCounter++;
+            if (spriteCounter > 12) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
+        }
         x = x + speed*keyH.rightPressed - speed*keyH.leftPressed;
         y = y + speed*keyH.downPressed - speed*keyH.upPressed;
-
-        spriteCounter++;
-        if (spriteCounter > 10) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            }
-            else if (spriteNum == 2) {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
-        }
 
     }
     public void draw( Graphics2D g2) {
