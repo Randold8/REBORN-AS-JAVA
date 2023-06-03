@@ -18,8 +18,14 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = originalTileSize * scale;
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
+
+    //НАСТРОЙКИ МИРА
+    public final int maxWorldCol = 52;
+    public final int maxWorldRow = 32;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
 
     //FPS
     int FPS = 60;
@@ -29,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     MouseHandler mouseH = new MouseHandler();
     MouseMotion mouseMH = new MouseMotion();
-    Player player = new Player(this,keyH);
+    public Player player = new Player(this,keyH);
     Thread gameThread;
 
     public GamePanel() {
