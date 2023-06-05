@@ -23,6 +23,11 @@ public class Player extends Entity {
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
         setDefaultValues();
         getPlayerImage();
     }
@@ -80,12 +85,25 @@ public class Player extends Entity {
                 speed -= Math.ceil(speedBuildup);
             }
         }
-        System.out.println(speed);
-        worldX = worldX + speed*keyH.rightPressed - speed*keyH.leftPressed;
-        worldY = worldY + speed*keyH.downPressed - speed*keyH.upPressed;
-        if (speed < 0)
-        { speed = 0;
-        };
+
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+        if (collisionOn == false) {
+            switch(direction) {
+                case "up":
+                    worldY -= speed;
+                    break;
+                case "down":
+                    worldY += speed;
+                    break;
+                case "right":
+                    worldX += speed;
+                    break;
+                case "left":
+                    worldX -= speed;
+                    break;
+            }
+        }
 
     }
     public void draw( Graphics2D g2) {
