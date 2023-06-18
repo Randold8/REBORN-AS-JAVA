@@ -14,6 +14,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
     double speedBuildup = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -90,6 +91,9 @@ public class Player extends Entity {
 
         collisionOn = false;
         gp.cChecker.checkTile(this);
+        int objIndex = gp.cChecker.checkObject(this,true);
+        pickUpObject(objIndex);
+
         if (collisionOn == false) {
             switch(direction) {
                 case "up":
@@ -107,6 +111,24 @@ public class Player extends Entity {
             }
         }
 
+    }
+    public void pickUpObject(int i) {
+        if(i != -1) {
+            String objectName = gp.obj[i].name;
+            switch(objectName) {
+                case "key":
+                    hasKey ++;
+                    gp.obj[i] = null;
+                    break;
+                case "door":
+                    if(hasKey > 0) {
+                        gp.obj[i] = null;
+                    }
+                    break;
+                case "chest":
+                    break;
+            }
+        }
     }
     public void draw( Graphics2D g2) {
         BufferedImage image = null;
