@@ -14,7 +14,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+    public int hasKey = 0;
     double speedBuildup = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -125,7 +125,7 @@ public class Player extends Entity {
                     if(hasKey > 0) {
                         gp.playSE(2,0f);
                         gp.obj[i] = null;
-
+                        hasKey --;
                     }
                     break;
                 case "chest":

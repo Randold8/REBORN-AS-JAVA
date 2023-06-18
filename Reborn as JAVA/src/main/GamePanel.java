@@ -7,6 +7,7 @@ import tile.TileManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -34,15 +35,17 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     MouseHandler mouseH = new MouseHandler();
     MouseMotion mouseMH = new MouseMotion();
-    Sound sound = new Sound();
+    Sound music = new Sound();
+    Sound se = new Sound();
     public AssetSetter aSetter = new AssetSetter(this);
+    public UI ui = new UI(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
     Thread gameThread;
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[10];
 
 
-    public GamePanel() {
+    public GamePanel() throws IOException, FontFormatException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -104,19 +107,19 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         player.draw(g2);
-
+        ui.draw(g2);
         g2.dispose();
     }
     public void playMusic(int i) {
-        sound.setFile(i);
-        sound.play(-10.0f);
-        sound.loop();
+        music.setFile(i);
+        music.play(-10.0f);
+        music.loop();
     }
     public void stopMusic (int i) {
-        sound.stop();
+        music.stop();
     }
     public void playSE (int i, float vol) {
-        sound.setFile(i);
-        sound.play(vol);
+        se.setFile(i);
+        se.play(vol);
     }
 }
