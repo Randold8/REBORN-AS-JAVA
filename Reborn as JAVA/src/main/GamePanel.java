@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import environment.Env;
 import object.SuperObject;
 import tile.TileManager;
 
@@ -32,17 +33,21 @@ public class GamePanel extends JPanel implements Runnable {
 
     TileManager tileM = new TileManager(this);
 
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     MouseHandler mouseH = new MouseHandler();
     MouseMotion mouseMH = new MouseMotion();
     Sound music = new Sound();
     Sound se = new Sound();
     public AssetSetter aSetter = new AssetSetter(this);
+    public Env env = new Env(this);
     public UI ui = new UI(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
     Thread gameThread;
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[10];
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
 
     public GamePanel() throws IOException, FontFormatException {
@@ -57,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         aSetter.setObject();
         playMusic(0,-10f);
+        gameState = playState;
     }
 
     public void startGameThread() {
@@ -93,7 +99,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+        if (gameState == playState) {
+            player.update();
+        }
+        if (gameState == pauseState) {
+
+        }
     }
 
     public void paintComponent(Graphics g) {

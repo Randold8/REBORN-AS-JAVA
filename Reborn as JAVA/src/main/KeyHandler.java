@@ -5,8 +5,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 
 public class KeyHandler implements KeyListener {
+    GamePanel gp;
 
     public int upPressed, downPressed, rightPressed, leftPressed, R_Pressed = 0;
+
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -32,6 +38,13 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_D||code==KeyEvent.VK_RIGHT) {
             rightPressed = 1;
+        }
+        if(code==KeyEvent.VK_SPACE) {
+            if(gp.gameState == gp.playState) {
+                gp.gameState = gp.pauseState;
+            } else if (gp.gameState == gp.pauseState) {
+                gp.gameState = gp.playState;
+            }
         }
     }
 

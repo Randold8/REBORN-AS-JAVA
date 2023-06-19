@@ -114,7 +114,6 @@ public class Player extends Entity {
                 case "left" -> worldX -= speed;
             }
         }
-        System.out.println(speedBuildup + " " + speed + " " + speedLoss);
 
     }
     public void pickUpObject(int i) {
