@@ -16,6 +16,7 @@ public class Player extends Entity {
     public final int screenY;
     public int hasKey = 0;
     double speedBuildup = 0;
+    double speedLoss = 1;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -25,18 +26,18 @@ public class Player extends Entity {
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
+        solidArea.x = 12;
+        solidArea.y = 20;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.width = 28;
+        solidArea.height = 28;
         setDefaultValues();
         getPlayerImage();
     }
     public void setDefaultValues() {
-        worldX = gp.tileSize*30;
-        worldY = gp.tileSize*11;;
+        worldX = gp.tileSize*41;
+        worldY = gp.tileSize*18;
         maxSpeed = 4;
         speed = 0;
         direction = "down";
@@ -77,15 +78,26 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
-            if (speed < maxSpeed && speedBuildup < (double) maxSpeed) {
+            if (speed < maxSpeed) {
                 speedBuildup += 0.1;
                 speed += Math.floor(speedBuildup);
+                if (speedBuildup >= 1) {
+                    speedBuildup = 0;
+                }
+                speedLoss = 1;
             }
 
         } else {
-            if (speed > 0 && speedBuildup > 0) {
-                speedBuildup -= 0.2;
-                speed -= Math.ceil(speedBuildup);
+            if (speed > 0) {
+                speedLoss += (float)1/speed;
+                speed -= Math.floor(speedLoss);
+                if (speedLoss > 1) {
+                    speedLoss = 0;
+                }
+                if (speed < 0) {
+                    speed = 0;
+                }
+                speedBuildup = 1;
             }
         }
 
@@ -94,22 +106,15 @@ public class Player extends Entity {
         int objIndex = gp.cChecker.checkObject(this,true);
         pickUpObject(objIndex);
 
-        if (collisionOn == false) {
-            switch(direction) {
-                case "up":
-                    worldY -= speed;
-                    break;
-                case "down":
-                    worldY += speed;
-                    break;
-                case "right":
-                    worldX += speed;
-                    break;
-                case "left":
-                    worldX -= speed;
-                    break;
+        if (!collisionOn) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "right" -> worldX += speed;
+                case "left" -> worldX -= speed;
             }
         }
+        System.out.println(speedBuildup + " " + speed + " " + speedLoss);
 
     }
     public void pickUpObject(int i) {
@@ -120,54 +125,66 @@ public class Player extends Entity {
                     gp.playSE(1,0f);
                     hasKey ++;
                     gp.obj[i] = null;
+                    gp.ui.showMessage("Got a key!");
                     break;
                 case "door":
                     if(hasKey > 0) {
                         gp.playSE(2,0f);
                         gp.obj[i] = null;
                         hasKey --;
+                    } else {
+                        gp.ui.showMessage("You need a key!");
                     }
                     break;
                 case "chest":
+                    gp.ui.gameFinished = true;
+                    gp.stopMusic();
+                    gp.obj[i] = null;
+                    gp.playMusic(4,0f);
                     break;
+                case "boots":
+                    gp.ui.showMessage("Max speed increased!");
+                    gp.playSE(5,0f);
+                    gp.obj[i] = null;
+                    maxSpeed += 2;
             }
         }
     }
     public void draw( Graphics2D g2) {
         BufferedImage image = null;
-        switch(direction) {
-            case "up":
+        switch (direction) {
+            case "up" -> {
                 if (spriteNum == 1) {
                     image = up1;
                 }
                 if (spriteNum == 2) {
                     image = up2;
                 }
-                break;
-            case "down":
+            }
+            case "down" -> {
                 if (spriteNum == 1) {
                     image = down1;
                 }
                 if (spriteNum == 2) {
                     image = down2;
                 }
-                break;
-            case "right":
+            }
+            case "right" -> {
                 if (spriteNum == 1) {
                     image = right1;
                 }
                 if (spriteNum == 2) {
                     image = right2;
                 }
-                break;
-            case "left":
+            }
+            case "left" -> {
                 if (spriteNum == 1) {
                     image = left1;
                 }
                 if (spriteNum == 2) {
                     image = left2;
                 }
-                break;
+            }
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 

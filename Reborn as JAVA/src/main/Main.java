@@ -9,7 +9,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Reborn as JAVA");
+        window.setTitle("Reborn as JAVA!");
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
